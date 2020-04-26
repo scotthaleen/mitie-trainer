@@ -1,22 +1,23 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 
-cat sample.tsv | ./tools/create_trainings.py > tmp/sample.json`
+mkdir tmp
+cat sample.tsv | ./tools/create_trainings.py > tmp/sample.json
 
 #
-# import tmp/sample.json in to tagger 
+# import tmp/sample.json in to tagger
 #
 
 #
 # export tagged file for training
 #
 
-cat training_export_*.json | ./tools/train_model.py /srv/software/MITIE/MITIE-models/english/total_word_feature_extractor.dat new_ner_model.dat
+cat training_export_*.json | ./tools/train_model.py /opt/MITIE/MITIE-models/english/total_word_feature_extractor.dat new_ner_model.dat
 
 
 #
-# 
-# Run tagging over data 
+#
+# Run tagging over data
 #
 # This will tag based on the model and remove any tags in the data
 #
@@ -25,10 +26,10 @@ cat training_export_*.json | ./tools/tag_trainings.py new_ner_model.dat > tmp/ta
 #
 # import tmp/tagged_sample.json back in to the tagger
 #
-# modify tags and export again 
+# modify tags and export again
 #
 #
 
-## get a summary of diffs between trainings 
+## get a summary of diffs between trainings
 
 ./tools/diff_trainings.py training_export_*.json tmp/tagged_sample.json
