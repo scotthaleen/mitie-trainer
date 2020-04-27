@@ -1,5 +1,8 @@
 # mitie-trainer
 
+![Docker Image CI](https://github.com/scotthaleen/mitie-trainer/workflows/Docker%20Image%20CI/badge.svg)
+
+
 An interactive, browser-based model training tool for
 [MITIE](https://github.com/mit-nlp/MITIE). The MIT Information Extraction tool
 provides fast and easily trained named entity recognition (NER) and binary relation
