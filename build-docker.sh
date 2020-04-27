@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 
-if [[ ! -a artifacts/MITIE-models-v0.2.tar.bz2 ]]; then
+if [ ! -a artifacts/MITIE-models-v0.2.tar.bz2 ]; then
     wget -O - http://sourceforge.net/projects/mitie/files/binaries/MITIE-models-v0.2.tar.bz2 > artifacts/MITIE-models-v0.2.tar.bz2
 fi
 
