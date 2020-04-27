@@ -11,7 +11,7 @@ faster tagging of training data for input into MITIE.
 ### Setup
 
 - If it's not already present, install Tangelo v0.6.1 `pip install -Iv tangelo==0.6.1`
-- If not present install config `pip install config` 
+- If not present install config `pip install config`
 - Install [MITIE](https://github.com/mit-nlp/MITIE)
 - Set the path to your MITIE home in **conf/app.cfg**
 
@@ -43,7 +43,7 @@ cat training_export_*.json | ./tools/train_model.py /srv/software/MITIE/MITIE-mo
 
 **Tagging**
 
-You can use the trained model to tag a training set.  This will replace all tags with tags from MITIE.  
+You can use the trained model to tag a training set.  This will replace all tags with tags from MITIE.
 
 ```
 cat training_export_*.json | ./tools/tag_trainings.py new_ner_model.dat > tmp/tagged_sample.json
@@ -53,7 +53,7 @@ The newly tagged file **tagged_sample.json** can now be imported back in to the 
 
 **Diff Taggings**
 
-To get a summarized report of what was changed between too trainings files you can use the **diff_training.py** tool. This will give the report of what was added removed modified by each ID 
+To get a summarized report of what was changed between too trainings files you can use the **diff_training.py** tool. This will give the report of what was added removed modified by each ID
 
 ```
 ./tools/diff_trainings.py training_export_*.json tmp/tagged_sample.json
@@ -80,4 +80,39 @@ scottwalker1/00256_00257   +   {"start": 443, "tag": "person", "end": 444, "scor
 ```
 
 
+
+## Docker
+
+Install Docker
+
+Run `./build_docker.sh`
+
+Start a container `docker run --rm -d --name mitie1 -p 8000:8000 mitie:dev`
+
+Browse to [localhost:8000](localhost:8000)
+
+Import the `sample.json` from the repo as an example
+
+Navigate to [http://localhost:8000/#/admin/](http://localhost:8000/#/admin/) to modify training options
+
+
+Run `docker exec -it mitie1 sh` to access scripts inside the docker container
+
+Example of how to get text data out of docker (absent the use of volumes)
+```
+docker exec -it mitie1 cat /opt/mitie-trainer/sample.json > sample.json
+```
+
+Shutdown the container `docker stop mitie1` (warning this removes the container when started with `--rm` option)
+
+
+
+## UI Example
+
+
+![Home](doc/home.png)
+
+![Tagging](doc/tagging.png)
+
+![Admin](doc/admin.png)
 

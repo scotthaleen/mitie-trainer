@@ -24,7 +24,7 @@ def fmtNow():
     return datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S')
 
 def new(*args):
-    global trainer 
+    global trainer
     trainer = ner_trainer('{}/MITIE-models/english/total_word_feature_extractor.dat'.format(WEB_ROOT))
 
 
@@ -38,18 +38,18 @@ def addTraining(tokens, tags):
     trainer.add(sample)
 
 
-#POST { 'trainings': 
+#POST { 'trainings':
 #        [{ 'text': "sample", 'tokens': [["", 0]],
 #           'tags': [{ 'start': 0, 'end' : 1, 'tag': 'person' }] }
 def train(*args, **kwargs):
-    global trainer 
+    global trainer
     global ner
     new()
     samples = kwargs.get("trainings")
 
     for sample in samples:
-        addTraining([token[0] for token in sample.get("tokens")], 
-                    [(tag.get("start"), tag.get("end"), tag.get("tag")) 
+        addTraining([token[0] for token in sample.get("tokens")],
+                    [(tag.get("start"), tag.get("end"), tag.get("tag"))
                      for tag in sample.get("tags")])
 
     trainer.num_threads = 4
@@ -59,7 +59,7 @@ def train(*args, **kwargs):
 
 def save(*args):
     global ner
-    name = "{}_{}".format(fmtNow(), "ner_model.dat")    
+    name = "{}_{}".format(fmtNow(), "ner_model.dat")
     ner.save_to_disk("{}/{}".format(trained_dir, name))
     tangelo.content_type("application/json")
     return { 'model': "{}/{}".format("data/trained", name)}
@@ -81,7 +81,7 @@ def test(*args, **kwargs):
     tangelo.content_type("application/json")
     return { 'tokens': tokens, 'results': entity_results }
 
- 
+
 #GET /train/sample
 def sample(*args):
     sample = ner_training_instance(["My", "name", "is", "Davis", "King", "and", "I", "work", "for", "MIT", "."])
@@ -93,7 +93,7 @@ def sample(*args):
     sample2.add_entity(xrange(7,9), "person")
     sample2.add_entity(xrange(10,11), "org")
 
-    trainer = ner_trainer('/srv/software/MITIE/MITIE-models/english/total_word_feature_extractor.dat')
+    trainer = ner_trainer('{}/MITIE-models/english/total_word_feature_extractor.dat'.format(WEB_ROOT))
 
     trainer.add(sample)
     trainer.add(sample2)
@@ -117,7 +117,7 @@ def sample(*args):
     return entity_text
 
 
-#POST train/tokens { text: "" } 
+#POST train/tokens { text: "" }
 def getTokens(*args, **kwargs):
     cherrypy.log("test")
     sz = kwargs.get("text")
@@ -151,7 +151,7 @@ def post(*args, **kwargs):
     action = '.'.join(args)
     post_data = cherrypy.request.body.read()
     cherrypy.log(action)
-    
+
     if post_data:
         #if ajax body post
         return post_actions.get(action, unknown)(*args, **json.loads(post_data))

@@ -19,3 +19,8 @@ html/data/user_saves/*
 
 html/data/complete/*
 !html/data/complete/.keep
+
+artifacts/*
+!artifacts/.keep
+
+*.log
