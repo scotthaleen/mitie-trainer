@@ -12,7 +12,9 @@ jobs:
       run: ./build-docker.sh
     - name: Run container
       run: docker run --rm -d --name mitie1 -p 8000:8000 mitie:dev
+    - name: Check running containers
+      run: docker ps -a
     - name: Test Running
-      run: curl --silent --fail localhost:8000 || exit 1
+      run: ./run-tests.sh
     - name: Shutdown
       run: docker stop mitie1
