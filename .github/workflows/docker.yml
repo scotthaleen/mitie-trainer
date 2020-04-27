@@ -13,6 +13,6 @@ jobs:
     - name: Run container
       run: docker run --rm -d --name mitie1 -p 8000:8000 mitie:dev
     - name: Test Running
-      run: curl --silent --fail localhost:8080 || exit 1
+      run: curl --silent --fail localhost:8000 || exit 1
     - name: Shutdown
       run: docker stop mitie1
